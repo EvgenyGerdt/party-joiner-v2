@@ -1,21 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+
+import MainScreenView from "./Screens/MainScreenView";
+
+import LoginScreen from "./Screens/AuthScreens/LoginScreen";
+import RegistrationScreen from "./Screens/AuthScreens/RegistrationScreen";
+import ResetPasswordScreen from "./Screens/AuthScreens/ResetPasswordScreen";
+
+import ProfileMainScreen from "./Screens/ProfileScreens/UserScreens/ProfileMainScreen";
+
+import {Provider} from 'react-redux';
+
+import store from './Store/store';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    return (
+      <Provider store={store}>
+          <NavigationContainer>
+              <Stack.Navigator initialRouteName='Main' screenOptions={{
+                  headerShown: false,
+              }}>
+                  <Stack.Screen name="Main" component={MainScreenView} />
+                  <Stack.Screen name="Login" component={LoginScreen} />
+                  <Stack.Screen name="Register" component={RegistrationScreen} />
+                  <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+                  <Stack.Screen name="Profile" component={ProfileMainScreen} />
+              </Stack.Navigator>
+          </NavigationContainer>
+      </Provider>
+    );
+}
